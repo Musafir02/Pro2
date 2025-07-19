@@ -27,7 +27,7 @@ class ResumeBuilder {
 
     init() {
         // Initialize Lucide icons
-        lucide.createIcons();
+        this.initLucideIcons();
 
         // Bind event listeners
         this.bindEvents();
@@ -37,6 +37,11 @@ class ResumeBuilder {
 
         // Update preview
         this.updatePreview();
+    }
+
+    initLucideIcons() {
+        // Initialize Lucide icons
+        lucide.createIcons();
     }
 
     bindEvents() {
@@ -207,7 +212,7 @@ class ResumeBuilder {
         progressSection.classList.add('completed');
         const icon = progressSection.querySelector('.progress-icon');
         icon.setAttribute('data-lucide', 'check-circle');
-        lucide.createIcons();
+        this.initLucideIcons();
     }
 
     markSectionIncomplete(section) {
@@ -215,7 +220,7 @@ class ResumeBuilder {
         progressSection.classList.remove('completed');
         const icon = progressSection.querySelector('.progress-icon');
         icon.setAttribute('data-lucide', 'circle');
-        lucide.createIcons();
+        this.initLucideIcons();
     }
 
     addExperience() {
@@ -259,7 +264,7 @@ class ResumeBuilder {
         `;
 
         document.getElementById('experienceList').insertAdjacentHTML('beforeend', html);
-        lucide.createIcons();
+        this.initLucideIcons();
 
         // Bind events for new inputs
         const newItem = document.querySelector(`[data-id="${this.experienceCounter}"]`);
@@ -309,7 +314,7 @@ class ResumeBuilder {
         `;
 
         document.getElementById('educationList').insertAdjacentHTML('beforeend', html);
-        lucide.createIcons();
+        this.initLucideIcons();
 
         // Bind events for new inputs
         const newItem = document.querySelector(`[data-id="${this.educationCounter}"]`);
@@ -347,7 +352,7 @@ class ResumeBuilder {
         `;
 
         document.getElementById('skillsList').insertAdjacentHTML('beforeend', html);
-        lucide.createIcons();
+        this.initLucideIcons();
 
         // Bind events for new inputs
         const newItem = document.querySelector(`[data-id="${this.skillCounter}"]`);
@@ -513,7 +518,7 @@ class ResumeBuilder {
         } finally {
             generateBtn.disabled = false;
             generateBtn.innerHTML = '<i data-lucide="sparkles"></i> Get AI Suggestions';
-            lucide.createIcons();
+            this.initLucideIcons();
         }
     }
 
@@ -533,7 +538,7 @@ class ResumeBuilder {
             </div>
         `;
 
-        lucide.createIcons();
+        this.initLucideIcons();
     }
 
     saveResume() {
