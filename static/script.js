@@ -68,6 +68,15 @@ class ResumeBuilder {
         // AI suggestions
         document.getElementById('generateAIBtn').addEventListener('click', () => this.generateAISuggestions());
 
+        // Chat functionality
+        document.getElementById('sendChatBtn').addEventListener('click', () => this.sendChatMessage());
+        document.getElementById('chatInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                this.sendChatMessage();
+            }
+        });
+
         // Template selector
         document.getElementById('templateSelect').addEventListener('change', (e) => {
             this.resumeData.template = e.target.value;
@@ -753,6 +762,116 @@ class ResumeBuilder {
 
         pdf.save(`${data.personalInfo.firstName || 'resume'}.pdf`);
         this.showToast('Success', 'Resume PDF downloaded successfully!', 'success');
+    }
+
+    async sendChatMessage() {
+        const chatInput = document.getElementById('chatInput');
+        const chatMessages = document.getElementById('chatMessages');
+        const sendBtn = document.getElementById('sendChatBtn');
+        
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        // Add user message
+        this.addChatMessage(message, 'user');
+        
+        // Clear input and disable send button
+        chatInput.value = '';
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<i data-lucide="loader-2"></i>';
+        
+        // Add typing indicator
+        this.addTypingIndicator();
+
+        try {
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: message,
+                    resumeData: this.resumeData,
+                    type: 'chat'
+                })
+            });
+
+            const result = await response.json();
+            
+            // Remove typing indicator
+            this.removeTypingIndicator();
+
+            if (result.success) {
+                this.addChatMessage(result.response, 'ai');
+            } else {
+                this.addChatMessage('Sorry, I encountered an error. Please try again.', 'ai');
+                this.showToast('Error', result.error || 'Failed to get response', 'error');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            this.removeTypingIndicator();
+            this.addChatMessage('Sorry, I encountered an error. Please try again.', 'ai');
+            this.showToast('Error', 'Failed to send message. Please try again.', 'error');
+        } finally {
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = '<i data-lucide="send"></i>';
+            this.initLucideIcons();
+        }
+    }
+
+    addChatMessage(content, sender) {
+        const chatMessages = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chat-message ${sender}-message`;
+        
+        const avatar = sender === 'ai' ? 'bot' : 'user';
+        
+        messageDiv.innerHTML = `
+            <div class="message-avatar">
+                <i data-lucide="${avatar}"></i>
+            </div>
+            <div class="message-content">
+                <p>${content}</p>
+            </div>
+        `;
+        
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        this.initLucideIcons();
+    }
+
+    addTypingIndicator() {
+        const chatMessages = document.getElementById('chatMessages');
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'chat-message ai-message typing-indicator';
+        typingDiv.id = 'typingIndicator';
+        
+        typingDiv.innerHTML = `
+            <div class="message-avatar">
+                <i data-lucide="bot"></i>
+            </div>
+            <div class="message-content">
+                <div class="typing-indicator">
+                    <span>AI is typing</span>
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        chatMessages.appendChild(typingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        this.initLucideIcons();
+    }
+
+    removeTypingIndicator() {
+        const typingIndicator = document.getElementById('typingIndicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
     }
 
     scrollToAI() {

@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 import openai
@@ -23,14 +22,14 @@ def chat():
     try:
         data = request.json
         resume_data = data.get('resumeData', {})
-        
+
         # Use OpenRouter with DeepSeek model
         from openai import OpenAI
         client = OpenAI(
             api_key=os.getenv('OPENAI_API_KEY'),
             base_url="https://openrouter.ai/api/v1"
         )
-        
+
         response = client.chat.completions.create(
             model="deepseek/deepseek-chat",
             messages=[
@@ -42,49 +41,24 @@ def chat():
                     "role": "user",
                     "content": f"""Analyze this resume data and provide personalized career advice and learning recommendations.
 
-Resume Data:
-{json.dumps(resume_data, indent=2)}
+Return the response in JSON format with these keys:
+- resume_improvements: array of specific suggestions
+- learning_recommendations: array of objects with 'skill', 'reason', 'priority', 'resources'
+- market_insights: array of current market trends
+- skill_gaps: array of missing skills"""
+                    }
+                ],
+                max_tokens=1000,
+                temperature=0.3
+            )
 
-Based on the user's experience, skills, and career goals, provide:
+            return jsonify({
+                'success': True,
+                'suggestions': response.choices[0].message.content.strip()
+            })
 
-1. **Resume Improvements**: Specific suggestions to enhance their resume
-2. **Learning Path**: Technologies, skills, or certifications they should learn to advance their career
-3. **Job Market Insights**: What employers are looking for in their field
-4. **Skill Gaps**: Missing skills that would make them more competitive
-
-Format your response as a structured JSON with these sections:
-{{
-  "resume_improvements": [
-    "specific improvement suggestion 1",
-    "specific improvement suggestion 2"
-  ],
-  "learning_recommendations": [
-    {{
-      "skill": "Python",
-      "reason": "High demand in data science roles",
-      "priority": "High",
-      "resources": "Start with Python basics, then move to data analysis libraries"
-    }}
-  ],
-  "market_insights": [
-    "insight about current job market trends"
-  ],
-  "skill_gaps": [
-    "missing skill that would help career growth"
-  ]
-}}"""
-                }
-            ],
-            max_tokens=1000,
-            temperature=0.7
-        )
-        
-        return jsonify({
-            'success': True,
-            'suggestions': response.choices[0].message.content
-        })
-        
     except Exception as e:
+        print(f"Error: {e}")
         return jsonify({
             'success': False,
             'error': str(e)
