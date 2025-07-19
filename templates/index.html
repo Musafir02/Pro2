@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ResumeCraft Pro - Professional Resume Builder</title>
     <meta name="description" content="Create professional resumes with AI-powered suggestions and PDF export. Build your perfect resume in minutes with our easy-to-use resume builder.">
-    
+
     <!-- Open Graph tags for social sharing -->
     <meta property="og:title" content="ResumeCraft Pro - Professional Resume Builder">
     <meta property="og:description" content="Create professional resumes with AI-powered suggestions and PDF export functionality.">
     <meta property="og:type" content="website">
-    
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
@@ -24,11 +24,7 @@
                     <i data-lucide="file-text"></i>
                     ResumeCraft Pro
                 </h1>
-                <nav class="nav">
-                    <a href="#templates">Templates</a>
-                    <a href="#examples">Examples</a>
-                    <a href="#help">Help</a>
-                </nav>
+
                 <div class="header-actions">
                     <button id="saveBtn" class="btn btn-primary">
                         <i data-lucide="save"></i>
@@ -111,119 +107,7 @@
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="email" id="email" placeholder="john.doe@email.com" required>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ResumeCraft Pro - Professional Resume Builder</title>
-    <meta name="description" content="Create professional resumes with AI-powered suggestions and PDF export. Build your perfect resume in minutes with our easy-to-use resume builder.">
-    
-    <!-- Open Graph tags for social sharing -->
-    <meta property="og:title" content="ResumeCraft Pro - Professional Resume Builder">
-    <meta property="og:description" content="Create professional resumes with AI-powered suggestions and PDF export functionality.">
-    <meta property="og:type" content="website">
-    
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
-</head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <h1 class="logo">
-                    <i data-lucide="file-text"></i>
-                    ResumeCraft Pro
-                </h1>
-                <nav class="nav">
-                    <a href="#templates">Templates</a>
-                    <a href="#examples">Examples</a>
-                    <a href="#help">Help</a>
-                </nav>
-                <div class="header-actions">
-                    <button id="saveBtn" class="btn btn-primary">
-                        <i data-lucide="save"></i>
-                        Save
-                    </button>
-                    <button id="downloadBtn" class="btn btn-success">
-                        <i data-lucide="download"></i>
-                        Download PDF
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="main">
-        <div class="container">
-            <div class="layout">
-                <!-- Form Sidebar -->
-                <aside class="sidebar">
-                    <!-- Progress Card -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <i data-lucide="alert-circle"></i>
-                                Resume Progress
-                            </h3>
-                        </div>
-                        <div class="card-content">
-                            <div class="progress-sections">
-                                <div class="progress-section" data-section="personal">
-                                    <span>Personal Info</span>
-                                    <i data-lucide="circle" class="progress-icon"></i>
-                                </div>
-                                <div class="progress-section" data-section="experience">
-                                    <span>Experience</span>
-                                    <i data-lucide="circle" class="progress-icon"></i>
-                                </div>
-                                <div class="progress-section" data-section="education">
-                                    <span>Education</span>
-                                    <i data-lucide="circle" class="progress-icon"></i>
-                                </div>
-                                <div class="progress-section" data-section="skills">
-                                    <span>Skills</span>
-                                    <i data-lucide="circle" class="progress-icon"></i>
-                                </div>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="progressFill"></div>
-                            </div>
-                            <p class="progress-text">0% complete</p>
-                        </div>
-                    </div>
-
-                    <!-- Resume Form -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title" id="sectionTitle">Personal Information</h3>
-                        </div>
-                        <div class="card-content">
-                            <!-- Personal Info Section -->
-                            <div id="personalSection" class="form-section active">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label for="firstName">First Name</label>
-                                        <input type="text" id="firstName" placeholder="John" required>
-                                        <span class="error-message"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="lastName">Last Name</label>
-                                        <input type="text" id="lastName" placeholder="Doe" required>
-                                        <span class="error-message"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="title">Professional Title</label>
-                                    <input type="text" id="title" placeholder="Senior Software Engineer" required>
-                                    <span class="error-message"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" id="email" placeholder="john.doe@email.com" required>
                                     <span class="error-message"></span>
                                 </div>
                                 <div class="form-group">
