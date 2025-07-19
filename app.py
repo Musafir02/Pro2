@@ -1,72 +1,40 @@
 from flask import Flask, render_template, request, jsonify
-from flask_cors import CORS
-import requests
-import json
+import openai
+import os
 
-app = Flask(__name__)
-CORS(app)
+app = Flask(__name__, static_folder='static', template_folder='templates')
 
-# === AI SETTINGS ===
-OPENROUTER_API_KEY = "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"
-OPENROUTER_MODEL = "deepseek-chat"
+# Load OpenAI API key securely from environment variable
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# === HOME PAGE ===
 @app.route("/")
 def home():
     return render_template("index.html")
 
-# === AI CHATBOT ENDPOINT ===
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
-    user_message = data.get("message", "")
+    user_message = data.get("message", "").strip()
 
-    headers = {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-        "Content-Type": "application/json",
-        "HTTP-Referer": "http://localhost:5000",  # 🔁 or your site URL
-        "X-Title": "Resume AI Career Coach"
-    }
-
-    payload = {
-        "model": "deepseek/deepseek-r1:free",
-        "messages": [
-            {
-                "role": "system",
-                "content": "You are an AI career coach. Help users improve skills for their desired job."
-            },
-            {
-                "role": "user",
-                "content": user_message
-            }
-        ]
-    }
+    if not user_message:
+        return jsonify({"reply": "Please enter a message."}), 400
 
     try:
-        response = requests.post("https://openrouter.ai/api/v1/chat/completions",
-                                 headers=headers,
-                                 data=json.dumps(payload))
-        data = response.json()
-
-        # ✅ Debug print
-        print("🔁 OpenRouter reply:", data)
-
-        if "choices" in data:
-            reply = data["choices"][0]["message"]["content"]
-            return jsonify({"reply": reply})
-        elif "error" in data:
-            return jsonify({"reply": f"⚠️ AI error: {data['error']['message']}"}), 500
-        else:
-            return jsonify({"reply": f"⚠️ Unexpected AI response: {data}"}), 500
+        # OpenAI Chat Completion call
+        response = openai.ChatCompletion.create(
+            model="gpt-4",  # You can use gpt-3.5-turbo if needed
+            messages=[
+                {"role": "system", "content": "You are a friendly and professional AI Career Coach."},
+                {"role": "user", "content": user_message}
+            ],
+            max_tokens=300,
+            temperature=0.7
+        )
+        reply = response.choices[0].message.content.strip()
+        return jsonify({"reply": reply})
     except Exception as e:
-        return jsonify({"reply": f"⚠️ Exception: {str(e)}"}), 500
-
-# === PDF EXPORT TEST (Optional Future Use) ===
-@app.route("/generate", methods=["POST"])
-def generate():
-    data = request.get_json()
-    return jsonify({"message": "PDF generation logic goes here"})
-
+        print("Error:", e)
+        return jsonify({"reply": "⚠️ Error processing your request. Please try again."}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
