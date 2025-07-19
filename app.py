@@ -38,20 +38,30 @@ def chat():
                     "content": "You are a professional career coach and resume expert. Provide specific, actionable advice for resume improvement and career development."
                 },
                 {
-                    "role": "user",
-                    "content": f"""Analyze this resume data and provide personalized career advice and learning recommendations.
+                    "role": "user", 
+                    "content": f"""Based on this resume data: {json.dumps(resume_data)}
+
+If this is a chat message, respond conversationally to: {data.get('message', '')}
+
+Otherwise, analyze this resume data and provide personalized career advice and learning recommendations.
 
 Return the response in JSON format with these keys:
-- resume_improvements: array of specific suggestions
+- resume_improvements: array of specific suggestions  
 - learning_recommendations: array of objects with 'skill', 'reason', 'priority', 'resources'
 - market_insights: array of current market trends
 - skill_gaps: array of missing skills"""
-                    }
+                }
                 ],
                 max_tokens=1000,
                 temperature=0.3
             )
 
+        if data.get('type') == 'chat':
+            return jsonify({
+                'success': True,
+                'response': response.choices[0].message.content.strip()
+            })
+        else:
             return jsonify({
                 'success': True,
                 'suggestions': response.choices[0].message.content.strip()
