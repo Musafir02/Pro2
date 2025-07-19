@@ -524,19 +524,114 @@ class ResumeBuilder {
 
     displayAISuggestions(suggestions) {
         const contentDiv = document.getElementById('aiSuggestionsContent');
+        
+        try {
+            // Try to parse JSON response from AI
+            let parsedSuggestions;
+            
+            // Extract JSON from the response if it's wrapped in text
+            const jsonMatch = suggestions.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+                parsedSuggestions = JSON.parse(jsonMatch[0]);
+            } else {
+                throw new Error('No JSON found');
+            }
 
-        // For now, display the raw suggestions. You can parse and format this better
-        contentDiv.innerHTML = `
-            <div class="ai-section">
-                <div class="ai-section-title">
-                    <i data-lucide="lightbulb"></i>
-                    AI Recommendations
+            let html = '';
+
+            // Resume Improvements
+            if (parsedSuggestions.resume_improvements && parsedSuggestions.resume_improvements.length > 0) {
+                html += `
+                    <div class="ai-section">
+                        <div class="ai-section-title">
+                            <i data-lucide="edit-3"></i>
+                            Resume Improvements
+                        </div>
+                        <ul class="ai-list">
+                            ${parsedSuggestions.resume_improvements.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            // Learning Recommendations
+            if (parsedSuggestions.learning_recommendations && parsedSuggestions.learning_recommendations.length > 0) {
+                html += `
+                    <div class="ai-section">
+                        <div class="ai-section-title">
+                            <i data-lucide="graduation-cap"></i>
+                            Learning Recommendations
+                        </div>
+                        <div class="learning-cards">
+                            ${parsedSuggestions.learning_recommendations.map(item => `
+                                <div class="learning-card">
+                                    <div class="learning-header">
+                                        <h5 class="learning-skill">${item.skill}</h5>
+                                        <span class="priority-badge priority-${item.priority ? item.priority.toLowerCase() : 'medium'}">${item.priority || 'Medium'}</span>
+                                    </div>
+                                    <p class="learning-reason">${item.reason}</p>
+                                    ${item.resources ? `<p class="learning-resources"><strong>Get Started:</strong> ${item.resources}</p>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Market Insights
+            if (parsedSuggestions.market_insights && parsedSuggestions.market_insights.length > 0) {
+                html += `
+                    <div class="ai-section">
+                        <div class="ai-section-title">
+                            <i data-lucide="trending-up"></i>
+                            Market Insights
+                        </div>
+                        <ul class="ai-list">
+                            ${parsedSuggestions.market_insights.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            // Skill Gaps
+            if (parsedSuggestions.skill_gaps && parsedSuggestions.skill_gaps.length > 0) {
+                html += `
+                    <div class="ai-section">
+                        <div class="ai-section-title">
+                            <i data-lucide="target"></i>
+                            Skill Gaps to Address
+                        </div>
+                        <ul class="ai-list">
+                            ${parsedSuggestions.skill_gaps.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            contentDiv.innerHTML = html || `
+                <div class="ai-section">
+                    <div class="ai-section-title">
+                        <i data-lucide="lightbulb"></i>
+                        AI Recommendations
+                    </div>
+                    <p>No specific recommendations available. Please fill out more information in your resume.</p>
                 </div>
-                <div style="white-space: pre-wrap; font-size: 0.875rem; line-height: 1.5;">
-                    ${suggestions}
+            `;
+
+        } catch (error) {
+            // Fallback to displaying raw suggestions if JSON parsing fails
+            contentDiv.innerHTML = `
+                <div class="ai-section">
+                    <div class="ai-section-title">
+                        <i data-lucide="lightbulb"></i>
+                        AI Recommendations
+                    </div>
+                    <div class="ai-raw-response">
+                        ${suggestions.replace(/\n/g, '<br>')}
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
+        }
 
         this.initLucideIcons();
     }

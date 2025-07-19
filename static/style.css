@@ -1018,3 +1018,130 @@ body {
         height: 44px;
     }
 }
+
+/* Skills Section */
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.skill-tag {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* AI Suggestions Styles */
+.ai-section {
+    margin-bottom: var(--space-xl);
+}
+
+.ai-section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-weight: 600;
+    color: var(--gray-800);
+    margin-bottom: var(--space-md);
+    font-size: 1rem;
+}
+
+.ai-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ai-list li {
+    background: var(--gray-50);
+    padding: var(--space-md);
+    border-radius: var(--radius);
+    margin-bottom: var(--space-sm);
+    border-left: 4px solid var(--primary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.learning-cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.learning-card {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--gray-50) 100%);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    transition: all 0.3s ease;
+}
+
+.learning-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+}
+
+.learning-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-sm);
+}
+
+.learning-skill {
+    font-weight: 700;
+    color: var(--gray-800);
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.priority-badge {
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.priority-high {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.priority-medium {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.priority-low {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.learning-reason {
+    color: var(--gray-600);
+    margin-bottom: var(--space-sm);
+    line-height: 1.6;
+}
+
+.learning-resources {
+    color: var(--gray-700);
+    font-size: 0.875rem;
+    background: var(--gray-100);
+    padding: var(--space-sm);
+    border-radius: var(--radius);
+    margin: 0;
+}
+
+.ai-raw-response {
+    background: var(--gray-50);
+    padding: var(--space-lg);
+    border-radius: var(--radius);
+    border-left: 4px solid var(--primary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--gray-700);
+}

@@ -40,16 +40,39 @@ def chat():
                 },
                 {
                     "role": "user",
-                    "content": f"""Analyze the following resume data and provide actionable suggestions for improvement and learning recommendations.
+                    "content": f"""Analyze this resume data and provide personalized career advice and learning recommendations.
 
 Resume Data:
 {json.dumps(resume_data, indent=2)}
 
-Please provide:
-1. Resume improvement suggestions (focus on content, formatting, missing elements, quantifiable achievements)
-2. Learning recommendations based on the person's field and experience
+Based on the user's experience, skills, and career goals, provide:
 
-Format your response as JSON with 'improvements' and 'learning' arrays."""
+1. **Resume Improvements**: Specific suggestions to enhance their resume
+2. **Learning Path**: Technologies, skills, or certifications they should learn to advance their career
+3. **Job Market Insights**: What employers are looking for in their field
+4. **Skill Gaps**: Missing skills that would make them more competitive
+
+Format your response as a structured JSON with these sections:
+{{
+  "resume_improvements": [
+    "specific improvement suggestion 1",
+    "specific improvement suggestion 2"
+  ],
+  "learning_recommendations": [
+    {{
+      "skill": "Python",
+      "reason": "High demand in data science roles",
+      "priority": "High",
+      "resources": "Start with Python basics, then move to data analysis libraries"
+    }}
+  ],
+  "market_insights": [
+    "insight about current job market trends"
+  ],
+  "skill_gaps": [
+    "missing skill that would help career growth"
+  ]
+}}"""
                 }
             ],
             max_tokens=1000,
