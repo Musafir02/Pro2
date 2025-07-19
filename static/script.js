@@ -950,18 +950,72 @@ function scrollToAI() {
 }
 
 function addExperienceAndContinue() {
-    addExperience();
-    nextSection('education');
+    const experienceList = document.getElementById('experienceList');
+    const items = experienceList ? experienceList.querySelectorAll('.experience-item') : [];
+    let canContinue = false;
+
+    if (items.length === 0) {
+        addExperience();
+        canContinue = true;
+    } else {
+        const lastItem = items[items.length - 1];
+        const title = lastItem.querySelector('.exp-title')?.value.trim();
+        const company = lastItem.querySelector('.exp-company')?.value.trim();
+        if (title && company) {
+            addExperience();
+            canContinue = true;
+        } else {
+            resumeBuilder.showToast('Error', 'Please fill out the last experience before continuing.', 'error');
+        }
+    }
+
+    if (canContinue) nextSection('education');
 }
 
 function addEducationAndContinue() {
-    addEducation();
-    nextSection('skills');
+    const educationList = document.getElementById('educationList');
+    const items = educationList ? educationList.querySelectorAll('.education-item') : [];
+    let canContinue = false;
+
+    if (items.length === 0) {
+        addEducation();
+        canContinue = true;
+    } else {
+        const lastItem = items[items.length - 1];
+        const degree = lastItem.querySelector('.edu-degree')?.value.trim();
+        const institution = lastItem.querySelector('.edu-institution')?.value.trim();
+        if (degree && institution) {
+            addEducation();
+            canContinue = true;
+        } else {
+            resumeBuilder.showToast('Error', 'Please fill out the last education before continuing.', 'error');
+        }
+    }
+
+    if (canContinue) nextSection('skills');
 }
 
 function addSkillAndDownload() {
-    addSkill();
-    downloadPDF();
+    const skillsList = document.getElementById('skillsList');
+    const items = skillsList ? skillsList.querySelectorAll('.skill-item') : [];
+    let canDownload = false;
+
+    if (items.length === 0) {
+        addSkill();
+        canDownload = true;
+    } else {
+        const lastItem = items[items.length - 1];
+        const category = lastItem.querySelector('.skill-category')?.value.trim();
+        const skills = lastItem.querySelector('.skill-list')?.value.trim();
+        if (category && skills) {
+            addSkill();
+            canDownload = true;
+        } else {
+            resumeBuilder.showToast('Error', 'Please fill out the last skill before downloading.', 'error');
+        }
+    }
+
+    if (canDownload) downloadPDF();
 }
 
 
