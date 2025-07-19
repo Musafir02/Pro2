@@ -63,7 +63,6 @@ class ResumeBuilder {
         });
 
         // Header buttons
-        document.getElementById('saveBtn').addEventListener('click', () => this.saveResume());
         document.getElementById('downloadBtn').addEventListener('click', () => this.downloadPDF());
 
         // AI suggestions
@@ -636,21 +635,7 @@ class ResumeBuilder {
         this.initLucideIcons();
     }
 
-    saveResume() {
-        this.updateFromForm();
-
-        const resumeJson = JSON.stringify(this.resumeData, null, 2);
-        const blob = new Blob([resumeJson], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${this.resumeData.personalInfo.firstName || 'resume'}_data.json`;
-        a.click();
-
-        URL.revokeObjectURL(url);
-        this.showToast('Success', 'Resume data saved successfully!', 'success');
-    }
+    
 
     downloadPDF() {
         const { jsPDF } = window.jspdf;
@@ -835,9 +820,7 @@ function addSkill() {
     resumeBuilder.addSkill();
 }
 
-function saveResume() {
-    resumeBuilder.saveResume();
-}
+
 
 function downloadPDF() {
     resumeBuilder.downloadPDF();

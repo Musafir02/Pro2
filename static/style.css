@@ -724,10 +724,6 @@ body {
     box-shadow: 0 25px 35px -5px rgba(0, 0, 0, 0.2);
 }
 
-.fab-save {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-}
-
 .fab-ai {
     background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
 }

@@ -26,10 +26,6 @@
                 </h1>
 
                 <div class="header-actions">
-                    <button id="saveBtn" class="btn btn-primary">
-                        <i data-lucide="save"></i>
-                        Save
-                    </button>
                     <button id="downloadBtn" class="btn btn-success">
                         <i data-lucide="download"></i>
                         Download PDF
@@ -184,8 +180,8 @@
                                     <button type="button" class="btn btn-outline" onclick="previousSection('education')">
                                         Previous
                                     </button>
-                                    <button type="button" class="btn btn-success" onclick="saveResume()">
-                                        Save Resume
+                                    <button type="button" class="btn btn-success" onclick="downloadPDF()">
+                                        Download Resume
                                     </button>
                                 </div>
                             </div>
@@ -253,9 +249,6 @@
 
     <!-- Floating Action Buttons -->
     <div class="floating-actions">
-        <button class="fab fab-save" onclick="saveResume()" title="Save resume">
-            <i data-lucide="save"></i>
-        </button>
         <button class="fab fab-ai" onclick="scrollToAI()" title="Get AI suggestions">
             <i data-lucide="sparkles"></i>
         </button>
