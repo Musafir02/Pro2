@@ -949,6 +949,22 @@ function scrollToAI() {
     resumeBuilder.scrollToAI();
 }
 
+function addExperienceAndContinue() {
+    addExperience();
+    nextSection('education');
+}
+
+function addEducationAndContinue() {
+    addEducation();
+    nextSection('skills');
+}
+
+function addSkillAndDownload() {
+    addSkill();
+    downloadPDF();
+}
+
+
 // Initialize the application
 let resumeBuilder;
 document.addEventListener('DOMContentLoaded', () => {
