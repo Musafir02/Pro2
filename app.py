@@ -24,12 +24,15 @@ def chat():
         data = request.json
         resume_data = data.get('resumeData', {})
         
-        # Use the newer OpenAI API (v1.0+)
+        # Use OpenRouter with DeepSeek model
         from openai import OpenAI
-        client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+        client = OpenAI(
+            api_key=os.getenv('OPENAI_API_KEY'),
+            base_url="https://openrouter.ai/api/v1"
+        )
         
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="deepseek/deepseek-chat",
             messages=[
                 {
                     "role": "system",
